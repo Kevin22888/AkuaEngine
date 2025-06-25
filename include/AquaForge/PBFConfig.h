@@ -19,6 +19,7 @@ struct PBFConfig {
     float restDensity = 1.0f;
     float particle_spacing = 0.5f;
     float smoothRadius = 2.0f * particle_spacing;
+    float spatialHashCellSize = 2.0f * particle_spacing; // take cellsize equal to smooth radius
     float relaxation = 0.01f;
     int maxNeighbours = 512;
     int solverIterations = 4;

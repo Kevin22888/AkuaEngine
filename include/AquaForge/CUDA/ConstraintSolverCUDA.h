@@ -4,6 +4,7 @@
 #include <AquaForge/PBFConfig.h>
 #include <glm/glm.hpp>
 #include <cuda_gl_interop.h>
+#include <cstdint>
 
 namespace AquaForge {
 
@@ -12,10 +13,10 @@ namespace ConstraintSolverCUDA {
 void runConstraintSolverCUDA(
     cudaGraphicsResource* particlesResource, 
     int numParticles, 
-    float smoothRadius, 
     int solverIterations, 
     uint32_t* neighbourArray, 
     uint32_t* neighbourCount, 
+    float smoothRadius, 
     const int maxNeighbours, 
     const float restDensity, 
     const float epsilon, 

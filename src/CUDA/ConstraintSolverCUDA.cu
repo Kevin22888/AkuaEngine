@@ -3,6 +3,7 @@
 #include <AquaForge/Particle.h>
 #include <AquaForge/PBFConfig.h>
 #include <cuda_runtime.h>
+#include <cuda_gl_interop.h>
 #include <thrust/device_vector.h>
 #include <glm/glm.hpp>
 
@@ -171,10 +172,10 @@ __global__ void kernel_correct_position(Particle* sortedParticles, int numPartic
 void runConstraintSolverCUDA(
     cudaGraphicsResource* particlesResource, 
     int numParticles, 
-    float smoothRadius, 
     int solverIterations, 
     uint32_t* neighbourArray, 
     uint32_t* neighbourCount, 
+    float smoothRadius, 
     const int maxNeighbours, 
     const float restDensity, 
     const float relaxation, 
