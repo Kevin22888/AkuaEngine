@@ -29,6 +29,8 @@ ShaderProgram::ShaderProgram(const char* vertexShaderFilePath, const char* fragm
         fShaderFile.close();
     } catch (std::ifstream::failure& e) {
         std::cerr << "[AquaForge::ShaderProgram::ShaderProgram] Failed to load file: " << e.what() << std::endl;
+        _isValid = false;
+        return; // Cannot proceed
     }
 
     // convert string streams into string
@@ -44,39 +46,60 @@ ShaderProgram::ShaderProgram(const char* vertexShaderFilePath, const char* fragm
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vShaderSource, NULL);
     glCompileShader(vertexShader);
-    checkCompileErrors(vertexShader, TargetType::VertexShader);
+    if (!checkCompileErrors(vertexShader, TargetType::VertexShader)) {
+        _isValid = false;
+        return;
+    }
 
     fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fShaderSource, NULL);
     glCompileShader(fragmentShader);
-    checkCompileErrors(fragmentShader, TargetType::FragmentShader);
+    if (!checkCompileErrors(fragmentShader, TargetType::FragmentShader)) {
+        _isValid = false;
+        return;
+    }
 
     _programID = glCreateProgram();
     glAttachShader(_programID, vertexShader);
     glAttachShader(_programID, fragmentShader);
     glLinkProgram(_programID);
-    checkCompileErrors(_programID, TargetType::Program);
+    if (!checkCompileErrors(_programID, TargetType::Program)) {
+        _isValid = false;
+        return;
+    }
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+
+    _isAlive = true;
+    _isValid = true;
+}
+
+ShaderProgram::~ShaderProgram() {
+    destroy();
 }
 
 void ShaderProgram::bind() {
-    if (!_isValid || !_isAlive) return;
-    
+    if (!_isValid || !_isAlive) {
+        std::cerr << "[AquaForge::ShaderProgram::bind] Attempt to bind an invalid or destroyed shader program." << std::endl;
+        return;
+    }
     glUseProgram(_programID);
 }
 
 void ShaderProgram::destroy() {
     if (!_isAlive) return;
 
-    glDeleteProgram(_programID);
-    _programID = 0;
+    if (_programID != 0) {
+        glDeleteProgram(_programID);
+        _programID = 0;
+    }
+
     _isAlive = false;
 }
 
 // Later on, let the application handle shader errors and support hot reload
-void ShaderProgram::checkCompileErrors(GLuint targetID, TargetType type) {
+bool ShaderProgram::checkCompileErrors(GLuint targetID, TargetType type) {
     GLint success;
     char infoLog[1024];
     switch (type) {
@@ -86,6 +109,7 @@ void ShaderProgram::checkCompileErrors(GLuint targetID, TargetType type) {
             if (!success) {
                 glGetShaderInfoLog(targetID, 1024, NULL, infoLog);
                 std::cerr << "[AquaForge::ShaderProgram::checkCompileErrors] Shader Compile Error:\n" << infoLog << std::endl;
+                return false;
             }
             break;
 
@@ -94,9 +118,11 @@ void ShaderProgram::checkCompileErrors(GLuint targetID, TargetType type) {
             if (!success) {
                 glGetProgramInfoLog(targetID, 1024, NULL, infoLog);
                 std::cerr << "[AquaForge::ShaderProgram::checkCompileErrors] Program Linking Error:\n" << infoLog << std::endl;
+                return false;
             }
             break;
     }
+    return true;
 }
 
 } // namespace AquaForge

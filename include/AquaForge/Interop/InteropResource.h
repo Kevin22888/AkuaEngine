@@ -23,6 +23,7 @@ public:
 
     // Allow the manager of this resource to call it before GL context terminates
     void release();
+
 private:
     cudaGraphicsResource* _resource = nullptr;    
 };

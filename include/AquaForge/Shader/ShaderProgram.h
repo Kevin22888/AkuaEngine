@@ -10,6 +10,7 @@ namespace AquaForge {
 class ShaderProgram {
 public:
     ShaderProgram(const char* vertexShaderFilePath, const char* fragmentShaderFilePath);
+    ~ShaderProgram();
     void bind();
     void destroy();
     bool isValid() const;
@@ -20,8 +21,8 @@ public:
     
 private:
     GLuint _programID;
-    bool _isAlive = false;
-    bool _isValid = true;
+    bool _isAlive;
+    bool _isValid;
 
     enum class TargetType {
         VertexShader,
@@ -29,7 +30,7 @@ private:
         Program
     };
 
-    void checkCompileErrors(GLuint targetID, TargetType type);
+    bool checkCompileErrors(GLuint targetID, TargetType type);
 };
 
 // ============================= Inline functions ==============================
