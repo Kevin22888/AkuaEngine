@@ -26,8 +26,6 @@ struct PBFConfig {
     glm::vec3 gravity = {0.0f, -9.8f, 0.0f};
 };
 
-
-
 } // namespace AquaForge
 
 #endif // AQUAFORGE_PBF_CONFIG_H

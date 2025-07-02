@@ -1,7 +1,7 @@
 #include <AquaForge/CUDA/ConstraintSolverCUDA.h>
 #include <AquaForge/CUDA/SmoothingKernelsCUDA.h>
-#include <AquaForge/Particle.h>
-#include <AquaForge/PBFConfig.h>
+#include <AquaForge/Simulation/Particle.h>
+#include <AquaForge/Simulation/PBFConfig.h>
 #include <cuda_runtime.h>
 #include <cuda_gl_interop.h>
 #include <thrust/device_vector.h>

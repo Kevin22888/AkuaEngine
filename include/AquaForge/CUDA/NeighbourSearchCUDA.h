@@ -14,6 +14,7 @@ void findParticleNeighboursCUDA(
     uint32_t* neighbourArray,
     uint32_t* neighbourCount,
     float smoothRadius,
+    float cellSize,
     const int tableSize,
     const int maxNeighbours
 );

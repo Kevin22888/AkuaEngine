@@ -1,7 +1,7 @@
 #ifndef AQUAFORGE_CONSTRAINT_SOLVER_H
 #define AQUAFORGE_CONSTRAINT_SOLVER_H
 
-#include <AquaForge/PBFConfig.h>
+#include <AquaForge/Simulation/PBFConfig.h>
 #include <glm/glm.hpp>
 #include <cuda_gl_interop.h>
 #include <cstdint>

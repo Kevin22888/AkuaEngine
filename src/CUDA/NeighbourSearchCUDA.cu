@@ -1,5 +1,5 @@
 #include <AquaForge/CUDA/NeighbourSearchCUDA.h>
-#include <AquaForge/Particle.h>
+#include <AquaForge/Simulation/Particle.h>
 #include <cuda_runtime.h>
 #include <cuda_gl_interop.h>
 #include <thrust/device_vector.h>
@@ -141,7 +141,7 @@ void findParticleNeighboursCUDA(
     const int tableSize,
     const int maxNeighbours
 ) {
-    // Map resource data to CUDA, retrieve dvice pointer
+    // Map resource data to CUDA, retrieve device pointer
     cudaGraphicsMapResources(1, &particlesResource, 0);
     Particle* d_particles;
     size_t numBytes;
