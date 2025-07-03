@@ -1,8 +1,8 @@
 #ifndef AQUAFORGE_CAMERA_H
 #define AQUAFORGE_CAMERA_H
 
-#include "CameraConfig.h"
-#include "CameraMovement.h"
+#include <AquaForge/Camera/CameraConfig.h>
+#include <AquaForge/Camera/CameraMovement.h>
 #include <glm/glm.hpp>
 
 namespace AquaForge {

@@ -7,10 +7,29 @@
 
 namespace AquaForge {
 
+/**
+ * ShaderProgram represents a compiled and linked OpenGL shader program.
+ * 
+ * All methods that invoke OpenGL functions require a valid OpenGL context to be 
+ * current on the calling thread. This includes:
+ *   - Constructor (which loads and compiles shaders)
+ *   - bind()
+ *   - setUniform()
+ *   - destroy()
+ * 
+ * It is the caller's responsibility to ensure that the GL context is active.
+ * No safety checks for context validity are performed in this class.
+ */
 class ShaderProgram {
 public:
     ShaderProgram(const char* vertexShaderFilePath, const char* fragmentShaderFilePath);
     ~ShaderProgram();
+
+    ShaderProgram(const ShaderProgram& other) = delete;
+    ShaderProgram& operator=(const ShaderProgram& other) = delete;
+    ShaderProgram(ShaderProgram&& other) noexcept;
+    ShaderProgram& operator=(ShaderProgram&& other) noexcept;
+
     void bind();
     void destroy();
     bool isValid() const;

@@ -1,5 +1,4 @@
-#include "ShaderProgram.h"
-
+#include <AquaForge/Shader/ShaderProgram.h>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <fstream>
@@ -77,6 +76,27 @@ ShaderProgram::ShaderProgram(const char* vertexShaderFilePath, const char* fragm
 
 ShaderProgram::~ShaderProgram() {
     destroy();
+}
+
+ShaderProgram::ShaderProgram(ShaderProgram&& other) noexcept : _programID(other._programID), _isAlive(other._isAlive), _isValid(other._isValid) {
+    other._programID = 0;
+    other._isAlive = false;
+    other._isValid = false;
+}
+
+ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other) noexcept {
+    if (this != &other) {
+        destroy(); // Free the current GL program if it exists
+
+        _programID = other._programID;
+        _isAlive = other._isAlive;
+        _isValid = other._isValid;
+
+        other._programID = 0;
+        other._isAlive = false;
+        other._isValid = false;
+    }
+    return *this;
 }
 
 void ShaderProgram::bind() {
