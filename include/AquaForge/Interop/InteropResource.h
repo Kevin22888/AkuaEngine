@@ -30,37 +30,8 @@ private:
 
 // ============================= Inline functions ==============================
 
-inline InteropResource::InteropResource(GLuint bufferID) {
-    cudaError_t err = cudaGraphicsGLRegisterBuffer(&_resource, bufferID, cudaGraphicsMapFlagsNone);
-    if (err != cudaSuccess) {
-        std::cerr << "[AquaForge::InteropResource::InteropResource] Failed to register OpenGL buffer for access by CUDA." << std::endl;
-    }
-}
-
-inline InteropResource::~InteropResource() { 
-    release(); 
-}
-
-inline InteropResource::InteropResource(InteropResource&& other) noexcept 
-    : _resource(std::exchange(other._resource, nullptr)) {}
-
-inline InteropResource& InteropResource::operator=(InteropResource&& other) noexcept {
-    if (this != &other) {
-        release();
-        _resource = std::exchange(other._resource, nullptr);
-    }
-    return *this;
-}
-
 inline cudaGraphicsResource* InteropResource::getGraphicsResource() const { 
     return _resource; 
-}
-
-inline void InteropResource::release() {
-    if (_resource) {
-        cudaGraphicsUnregisterResource(_resource);
-        _resource = nullptr;
-    }
 }
 
 } // namespace AquaForge
