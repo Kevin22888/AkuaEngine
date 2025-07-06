@@ -15,6 +15,7 @@ public:
 
     // Calls wrapper functions that launch CUDA kernels
     void step(const InteropResource& particleInterop, float deltaTime, glm::vec3 boxMin, glm::vec3 boxMax);
+    void setGravity(glm::vec3 gravity);
 
 private:
     int _numParticles;
@@ -24,6 +25,10 @@ private:
     PBFConfig _config;
     LambdaCorrParams _corrParams;
 };
+
+inline void PBFSolver::setGravity(glm::vec3 gravity) {
+    _config.gravity = gravity;
+}
 
 } // namespace AquaForge
 

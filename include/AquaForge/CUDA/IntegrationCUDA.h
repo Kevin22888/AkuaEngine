@@ -1,6 +1,7 @@
 #ifndef AQUAFORGE_INTEGRATION_H
 #define AQUAFORGE_INTEGRATION_H
 
+#include <glad/glad.h>
 #include <cuda_gl_interop.h>
 #include <glm/glm.hpp>
 

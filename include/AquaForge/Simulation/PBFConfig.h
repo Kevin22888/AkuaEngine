@@ -9,7 +9,7 @@ namespace AquaForge {
 // The correction acts as an artifical pressure to mimic surface tension.
 struct LambdaCorrParams {
     bool enabled = true;
-    float k = 0.001f;
+    float k = 0.0001f;
     float n = 4.0f;
     float delta_q = 0.03;
 };
@@ -21,7 +21,7 @@ struct PBFConfig {
     float smoothRadius = 0.1f;
     float spatialHashCellSize = 0.1f; // take cellsize equal to smooth radius
     float relaxation = 600.0f;
-    int maxNeighbours = 512;
+    int maxNeighbours = 256;
     int solverIterations = 4;
     glm::vec3 gravity = {0.0f, -9.8f, 0.0f};
 };

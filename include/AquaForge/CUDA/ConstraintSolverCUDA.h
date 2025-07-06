@@ -2,8 +2,9 @@
 #define AQUAFORGE_CONSTRAINT_SOLVER_H
 
 #include <AquaForge/Simulation/PBFConfig.h>
-#include <glm/glm.hpp>
+#include <glad/glad.h>
 #include <cuda_gl_interop.h>
+#include <glm/glm.hpp>
 #include <cstdint>
 
 namespace AquaForge {

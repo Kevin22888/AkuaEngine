@@ -1,6 +1,7 @@
 #ifndef AQUAFORGE_NEIGHBOUR_SEARCH_H
 #define AQUAFORGE_NEIGHBOUR_SEARCH_H
 
+#include <glad/glad.h>
 #include <cuda_gl_interop.h>
 #include <cstdint>
 

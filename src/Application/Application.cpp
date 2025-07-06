@@ -10,9 +10,9 @@ namespace {
 
 constexpr int NUM_PARTICLES = 27000;
 // TODO: move these scene values to their own system
-constexpr glm::vec3 BOX_MIN = {-2.0f, -1.0f, -2.0f};
-constexpr glm::vec3 BOX_MAX = {2.0f, 2.0f, 2.0f};
-constexpr float FLOOR_LEVEL = -1.5f;
+constexpr glm::vec3 BOX_MIN = {-1.0f, -1.0f, -1.0f};
+constexpr glm::vec3 BOX_MAX = {2.5f, 2.5f, 2.5f};
+constexpr float FLOOR_LEVEL = -1.2f;
 constexpr float NEAR_Z = 0.1f;
 constexpr float FAR_Z = 160.0f;
 
@@ -106,16 +106,16 @@ void Application::prepareDamBreak() {
     // ============= Floor =============
     Mesh* floorMesh = new Mesh();
     std::vector<glm::vec3> floorVertices = {
-        {-20.0f, FLOOR_LEVEL, -20.0f}, // v0
-        { 20.0f, FLOOR_LEVEL, -20.0f}, // v1
-        { 20.0f, FLOOR_LEVEL,  20.0f}, // v2
-        {-20.0f, FLOOR_LEVEL,  20.0f}  // v3
+        {-10.0f, FLOOR_LEVEL, -10.0f}, // v0
+        { 10.0f, FLOOR_LEVEL, -10.0f}, // v1
+        { 10.0f, FLOOR_LEVEL,  10.0f}, // v2
+        {-10.0f, FLOOR_LEVEL,  10.0f}  // v3
     };
     std::vector<glm::vec2> floorUVs = {
         {0.0f, 0.0f},   // v0
-        {5.0f, 0.0f},  // v1
-        {5.0f, 5.0f}, // v2
-        {0.0f, 5.0f}   // v3
+        {1.0f, 0.0f},  // v1
+        {1.0f, 1.0f}, // v2
+        {0.0f, 1.0f}   // v3
     };
     std::vector<uint32_t> floorIndices = {
         0, 1, 2, // Triangle 1
@@ -126,6 +126,10 @@ void Application::prepareDamBreak() {
     floorMesh->setIndices(std::move(floorIndices));
 
     Material* floorMat = new Material("assets/shaders/floor.vert", "assets/shaders/floor.frag");
+    floorMat->getShaderProgram()->bind();
+    floorMat->getShaderProgram()->setUniform<glm::vec3>("color1", glm::vec3(0.8f, 0.8f, 0.8f)); // Light gray
+    floorMat->getShaderProgram()->setUniform<glm::vec3>("color2", glm::vec3(0.5f, 0.5f, 0.5f)); // Dark gray
+    floorMat->getShaderProgram()->setUniform<float>("scale", 20.0f); // smaller number makes larger tiles
 
     SceneObject* floorObject = SceneObject::createMeshObject(floorMat, floorMesh, false);
     _damBreakScene.addObject(floorObject);
@@ -159,7 +163,7 @@ void Application::prepareDamBreak() {
                 p.velocity = glm::zero<glm::vec3>();
                 p.mass = 1.0f;
                 p.color = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f); // blue
-                p.size = 500.0f; // width in pixels for vertex shader
+                p.size = 150.0f; // width in pixels for vertex shader
 
                 particles.push_back(p);
             }
