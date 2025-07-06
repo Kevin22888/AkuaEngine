@@ -120,7 +120,8 @@ __global__ void kernel_calculate_position_delta(
 
         glm::vec3 separation = p_i->new_position - p_j->new_position;
         float distanceSquared = glm::dot(separation, separation);
-        float lambda_corr = - corrParams.k * powf(SmoothingKernels::device_poly6(distanceSquared, smoothRadius) / SmoothingKernels::device_poly6(corrParams.delta_q, smoothRadius), corrParams.n);
+        float deltaQSquared = corrParams.delta_q * corrParams.delta_q;
+        float lambda_corr = - corrParams.k * powf(SmoothingKernels::device_poly6(distanceSquared, smoothRadius) / SmoothingKernels::device_poly6(deltaQSquared, smoothRadius), corrParams.n);
 
         position_delta += (p_i->lambda + p_j->lambda + lambda_corr) * p_j->mass * SmoothingKernels::device_gradient_spiky(separation, smoothRadius);
     }

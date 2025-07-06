@@ -13,6 +13,7 @@ class PBFSolver {
 public:
     PBFSolver(int numParticles, const PBFConfig& config, const LambdaCorrParams& corrParams);
 
+    // Calls wrapper functions that launch CUDA kernels
     void step(const InteropResource& particleInterop, float deltaTime, glm::vec3 boxMin, glm::vec3 boxMax);
 
 private:

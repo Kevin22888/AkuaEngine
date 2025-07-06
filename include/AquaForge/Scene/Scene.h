@@ -12,6 +12,7 @@ public:
 
     void addObject(SceneObject* object);
     const std::vector<SceneObject*>& getObjects() const;
+    void clear();
 
 private:
     std::vector<SceneObject*> _objects;

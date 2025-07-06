@@ -11,16 +11,16 @@ struct LambdaCorrParams {
     bool enabled = true;
     float k = 0.001f;
     float n = 4.0f;
-    float delta_q = 0;  // This is actually a vector but I'm keeping it simple for now
+    float delta_q = 0.03;
 };
 
 // Consider moving these structs into PBFTypes.h and making a configuration file with global variables
 struct PBFConfig {
-    float restDensity = 1.0f;
-    float particle_spacing = 0.5f;
-    float smoothRadius = 2.0f * particle_spacing;
-    float spatialHashCellSize = 2.0f * particle_spacing; // take cellsize equal to smooth radius
-    float relaxation = 0.01f;
+    float restDensity = 6378.0f; // kg/m^3
+    float particle_spacing = 0.05f;
+    float smoothRadius = 0.1f;
+    float spatialHashCellSize = 0.1f; // take cellsize equal to smooth radius
+    float relaxation = 600.0f;
     int maxNeighbours = 512;
     int solverIterations = 4;
     glm::vec3 gravity = {0.0f, -9.8f, 0.0f};

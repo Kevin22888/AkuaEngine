@@ -6,10 +6,7 @@
 namespace AquaForge {
 
 Scene::~Scene() {
-    for (SceneObject* object : _objects) {
-        delete object;
-    }
-    _objects.clear();
+    clear();
 }
 
 // For O(1) insertion, use unordered_set. But I'm keeping the vector in case I need the order
@@ -25,5 +22,11 @@ const std::vector<SceneObject*>& Scene::getObjects() const {
     return _objects;
 }
 
+void Scene::clear() {
+    for (SceneObject* object : _objects) {
+        delete object;
+    }
+    _objects.clear();
+}
 
 } // namespace AquaForge
