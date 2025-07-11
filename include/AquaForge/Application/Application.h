@@ -22,8 +22,8 @@ public:
 
 private:
     // Window configs
-    int _windowWidth = 800;
-    int _windowHeight = 600;
+    int _windowWidth = 1280;
+    int _windowHeight = 720;
     GLFWwindow* _window;
 
     // PBF

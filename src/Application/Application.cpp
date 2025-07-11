@@ -10,9 +10,9 @@ namespace {
 
 constexpr int NUM_PARTICLES = 27000;
 // TODO: move these scene values to their own system
-constexpr glm::vec3 BOX_MIN = {-1.0f, -1.0f, -1.0f};
-constexpr glm::vec3 BOX_MAX = {2.5f, 2.5f, 2.5f};
-constexpr float FLOOR_LEVEL = -1.2f;
+constexpr glm::vec3 BOX_MIN = {1.5f, 0.0f, 1.5f};
+constexpr glm::vec3 BOX_MAX = {4.5f, 4.0f, 4.5f};
+constexpr float FLOOR_LEVEL = -0.02f;
 constexpr float NEAR_Z = 0.1f;
 constexpr float FAR_Z = 160.0f;
 
@@ -83,6 +83,7 @@ bool Application::init() {
         return false;
     }
     glfwMakeContextCurrent(_window); // Make an OpenGL context (_window) the main context on the current thread
+    glfwSetWindowTitle(_window, "AquaForge");
 
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) { // Load OpenGL functions (must come after context)
         std::cerr << "[AquaForge::Application::init] Failed to initialize GLAD." << std::endl;
@@ -100,16 +101,18 @@ bool Application::init() {
     glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // Capture mouse
 
     prepareDamBreak();
+
+    return true;
 }
 
 void Application::prepareDamBreak() {
     // ============= Floor =============
     Mesh* floorMesh = new Mesh();
     std::vector<glm::vec3> floorVertices = {
-        {-10.0f, FLOOR_LEVEL, -10.0f}, // v0
-        { 10.0f, FLOOR_LEVEL, -10.0f}, // v1
-        { 10.0f, FLOOR_LEVEL,  10.0f}, // v2
-        {-10.0f, FLOOR_LEVEL,  10.0f}  // v3
+        {-2.0f, FLOOR_LEVEL, -2.0f}, // v0
+        { 8.0f, FLOOR_LEVEL, -2.0f}, // v1
+        { 8.0f, FLOOR_LEVEL,  8.0f}, // v2
+        {-2.0f, FLOOR_LEVEL,  8.0f}  // v3
     };
     std::vector<glm::vec2> floorUVs = {
         {0.0f, 0.0f},   // v0
@@ -138,8 +141,8 @@ void Application::prepareDamBreak() {
     floorObject = nullptr;
 
     // ============= Fluid =============
-    glm::vec3 minPos = {0.0f, 0.0f, 0.0f};
-    glm::vec3 maxPos = {1.5f, 1.5f, 1.5f};
+    glm::vec3 minPos = {2.0f, 1.0f, 2.0f};
+    glm::vec3 maxPos = {3.5f, 2.5f, 3.5f};
     glm::vec3 dimensions = maxPos - minPos;
 
     int numX = static_cast<int>(dimensions.x / _config.particle_spacing);
@@ -163,7 +166,7 @@ void Application::prepareDamBreak() {
                 p.velocity = glm::zero<glm::vec3>();
                 p.mass = 1.0f;
                 p.color = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f); // blue
-                p.size = 150.0f; // width in pixels for vertex shader
+                p.size = 100.0f; // width in pixels for vertex shader
 
                 particles.push_back(p);
             }
