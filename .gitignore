@@ -1,0 +1,14 @@
+*.lib
+*.dll
+*.exe
+
+!glfw3.dll
+!glfw3dll.lib
+
+/.vscode/
+
+notes.md
+
+# Ignore build outputs
+/build/
+/Release/
