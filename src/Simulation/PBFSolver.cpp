@@ -59,6 +59,19 @@ void PBFSolver::step(const InteropResource& particleInterop, float deltaTime, gl
 
     // 4. True update to the particle states
     updatePositionAndVelocityCUDA(particlesResource, _numParticles, deltaTime);
+
+    // 5. Vorticity Confinement
+    applyVelocityAdjustmentsCUDA(
+        particlesResource, 
+        _numParticles, 
+        _neighbourArray.data(), 
+        _neighbourCount.data(), 
+        _config.smoothRadius,
+        deltaTime,
+        _config.vorticityEpsilon,
+        _config.viscosity,
+        _config.maxNeighbours
+    );
 }
 
 } // namespace AquaForge

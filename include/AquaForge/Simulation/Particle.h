@@ -15,6 +15,8 @@ struct Particle {
     // Density Solver adjustment
     glm::vec3 position_delta;
 
+    glm::vec3 vorticity;
+
     // SPH fields
     float mass;
     float density;

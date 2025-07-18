@@ -21,6 +21,8 @@ struct PBFConfig {
     float smoothRadius = 0.1f;
     float spatialHashCellSize = 0.1f; // take cellsize equal to smooth radius
     float relaxation = 600.0f;
+    float vorticityEpsilon = 0.00001f;
+    float viscosity = 0.01f;
     int maxNeighbours = 128;
     int solverIterations = 4;
     glm::vec3 gravity = {0.0f, -9.8f, 0.0f};
