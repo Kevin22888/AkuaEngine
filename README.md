@@ -1,8 +1,8 @@
-# AquaForge
+# AkuaEngine
 
 ## Overview
 
-AquaForge is a real-time fluid simulation engine based on the Position-Based Fluids (PBF) algorithm by [Macklin and Müller (2013)](https://mmacklin.com/pbf_sig_preprint.pdf). It implements the core PBF solver from scratch, without relying on existing physics engines or software libraries. The solver runs entirely on the GPU, using custom CUDA kernels for neighbor search, constraint solving, and integration. Thrust is used selectively for sorting. Rendering is done via OpenGL, using a lightweight scene system and CUDA-OpenGL interop.
+AkuaEngine is a real-time fluid simulation engine based on the Position-Based Fluids (PBF) algorithm by [Macklin and Müller (2013)](https://mmacklin.com/pbf_sig_preprint.pdf). It implements the core PBF solver from scratch, without relying on existing physics engines or software libraries. The solver runs entirely on the GPU, using custom CUDA kernels for neighbor search, constraint solving, and integration. Thrust is used selectively for sorting. Rendering is done via OpenGL, using a lightweight scene system and CUDA-OpenGL interop.
 
 This project is part of my self-driven journey into graphics programming——an exploration of physically based animation through building something from the ground up.
 
@@ -52,7 +52,7 @@ The project also depends on GLFW and GLM, but they are included in the project f
 
 Clone the repository:
 ```bash
-git clone https://github.com/Kevin22888/AquaForge.git
+git clone https://github.com/Kevin22888/AkuaEngine.git
 ```
 Build with CMake:
 ```bash
@@ -99,7 +99,7 @@ To keep CUDA-specific details encapsulated, I structured all device operations b
 
 ### OpenGL-based rendering and scene system
 
-The rendering system is built on modern OpenGL, with a lightweight but scalable scene architecture. A `Scene` holds `SceneObject`s, which can be either meshes or particle systems. Each object is paired with a `Material`, which manages shader bindings and parameters. Rendering responsibilities are centralized in the `Renderer` class, which handles OpenGL state management, buffer uploads, and CUDA interop. The rest of the application remains decoupled from graphics code. This structure follows SOLID principles and lays the groundwork for extending AquaForge into a general-purpose graphics engine.
+The rendering system is built on modern OpenGL, with a lightweight but scalable scene architecture. A `Scene` holds `SceneObject`s, which can be either meshes or particle systems. Each object is paired with a `Material`, which manages shader bindings and parameters. Rendering responsibilities are centralized in the `Renderer` class, which handles OpenGL state management, buffer uploads, and CUDA interop. The rest of the application remains decoupled from graphics code. This structure follows SOLID principles and lays the groundwork for extending AkuaEngine into a general-purpose graphics engine.
 
 ## License
 
@@ -111,7 +111,7 @@ If you use this code or adapt any part of it in your project, I would appreciate
 
 Contact: kevin.graphics.dev@gmail.com
 
-I would love meet people in the field!
+I would love to meet people in the field!
 - If you work in computer graphics and have feedback, insights, or ideas, I'd be grateful to learn from you.
 - If you're a fellow beginner or indie developer working on similar problems, feel free to reach out. I'm always happy to exchange ideas and share what I’ve learned.
 - If you're part of a team working in graphics, simulation, or interactive tech, and think my work aligns with what you do, I'd love to connect.

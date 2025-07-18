@@ -1,4 +1,4 @@
-#include <AquaForge/Camera/Camera.h>
+#include <AkuaEngine/Camera/Camera.h>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -15,7 +15,7 @@ constexpr float ZERO_DEGREES = 0.0f;
 
 }
 
-namespace AquaForge {
+namespace AkuaEngine {
 
 Camera::Camera(const CameraConfig& config)
     : _position(config.position),
@@ -86,4 +86,4 @@ void Camera::updateVectors() {
     _cameraUp = glm::normalize(glm::cross(_cameraRight, _gaze));
 }
 
-} // namespace AquaForge
+} // namespace AkuaEngine

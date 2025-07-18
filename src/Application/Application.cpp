@@ -1,4 +1,4 @@
-#include <AquaForge/Application/Application.h>
+#include <AkuaEngine/Application/Application.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -18,7 +18,7 @@ constexpr float FAR_Z = 160.0f;
 
 }
 
-namespace AquaForge {
+namespace AkuaEngine {
 
 Application::Application() 
     : _camera(CameraConfig{}),
@@ -66,7 +66,7 @@ int Application::run() {
     
 bool Application::init() {
     if (!glfwInit()) {
-        std::cerr << "[AquaForge::Application::init] Failed to initialize GLFW." << std::endl;
+        std::cerr << "[AkuaEngine::Application::init] Failed to initialize GLFW." << std::endl;
         return false;
     }
 
@@ -76,17 +76,17 @@ bool Application::init() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Init window and set OpenGL context
-    _window = glfwCreateWindow(_windowWidth, _windowHeight, "AquaForge v0.1", nullptr, nullptr);
+    _window = glfwCreateWindow(_windowWidth, _windowHeight, "AkuaEngine v0.1", nullptr, nullptr);
     if (!_window) {
-        std::cerr << "[AquaForge::Application::init] Failed to create GLFW window." << std::endl;
+        std::cerr << "[AkuaEngine::Application::init] Failed to create GLFW window." << std::endl;
         glfwTerminate();
         return false;
     }
     glfwMakeContextCurrent(_window); // Make an OpenGL context (_window) the main context on the current thread
-    glfwSetWindowTitle(_window, "AquaForge");
+    glfwSetWindowTitle(_window, "AkuaEngine");
 
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) { // Load OpenGL functions (must come after context)
-        std::cerr << "[AquaForge::Application::init] Failed to initialize GLAD." << std::endl;
+        std::cerr << "[AkuaEngine::Application::init] Failed to initialize GLAD." << std::endl;
         glfwDestroyWindow(_window);
         glfwTerminate();
         return false;
@@ -218,4 +218,4 @@ void Application::cleanUp() {
     glfwTerminate();
 }
 
-} // namespace AquaForge
+} // namespace AkuaEngine

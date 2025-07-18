@@ -1,11 +1,11 @@
-#include <AquaForge/Shader/ShaderProgram.h>
+#include <AkuaEngine/Shader/ShaderProgram.h>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 
-namespace AquaForge {
+namespace AkuaEngine {
 
 ShaderProgram::ShaderProgram(const char* vertexShaderFilePath, const char* fragmentShaderFilePath) {
     // Define strings to hold shader code and define file input streams
@@ -27,7 +27,7 @@ ShaderProgram::ShaderProgram(const char* vertexShaderFilePath, const char* fragm
         vShaderFile.close();
         fShaderFile.close();
     } catch (std::ifstream::failure& e) {
-        std::cerr << "[AquaForge::ShaderProgram::ShaderProgram] Failed to load file: " << e.what() << std::endl;
+        std::cerr << "[AkuaEngine::ShaderProgram::ShaderProgram] Failed to load file: " << e.what() << std::endl;
         _isValid = false;
         return; // Cannot proceed
     }
@@ -101,7 +101,7 @@ ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other) noexcept {
 
 void ShaderProgram::bind() {
     if (!_isValid || !_isAlive) {
-        std::cerr << "[AquaForge::ShaderProgram::bind] Attempt to bind an invalid or destroyed shader program." << std::endl;
+        std::cerr << "[AkuaEngine::ShaderProgram::bind] Attempt to bind an invalid or destroyed shader program." << std::endl;
         return;
     }
     glUseProgram(_programID);
@@ -128,7 +128,7 @@ bool ShaderProgram::checkCompileErrors(GLuint targetID, TargetType type) {
             glGetShaderiv(targetID, GL_COMPILE_STATUS, &success);
             if (!success) {
                 glGetShaderInfoLog(targetID, 1024, NULL, infoLog);
-                std::cerr << "[AquaForge::ShaderProgram::checkCompileErrors] Shader Compile Error:\n" << infoLog << std::endl;
+                std::cerr << "[AkuaEngine::ShaderProgram::checkCompileErrors] Shader Compile Error:\n" << infoLog << std::endl;
                 return false;
             }
             break;
@@ -137,7 +137,7 @@ bool ShaderProgram::checkCompileErrors(GLuint targetID, TargetType type) {
             glGetProgramiv(targetID, GL_LINK_STATUS, &success);
             if (!success) {
                 glGetProgramInfoLog(targetID, 1024, NULL, infoLog);
-                std::cerr << "[AquaForge::ShaderProgram::checkCompileErrors] Program Linking Error:\n" << infoLog << std::endl;
+                std::cerr << "[AkuaEngine::ShaderProgram::checkCompileErrors] Program Linking Error:\n" << infoLog << std::endl;
                 return false;
             }
             break;
@@ -145,4 +145,4 @@ bool ShaderProgram::checkCompileErrors(GLuint targetID, TargetType type) {
     return true;
 }
 
-} // namespace AquaForge
+} // namespace AkuaEngine

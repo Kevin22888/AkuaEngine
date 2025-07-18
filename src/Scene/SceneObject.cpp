@@ -1,11 +1,11 @@
-#include <AquaForge/Scene/SceneObject.h>
-#include <AquaForge/Scene/SceneObjectType.h>
-#include <AquaForge/Graphics/Material.h>
-#include <AquaForge/Graphics/Mesh.h>
-#include <AquaForge/Simulation/ParticleSystem.h>
+#include <AkuaEngine/Scene/SceneObject.h>
+#include <AkuaEngine/Scene/SceneObjectType.h>
+#include <AkuaEngine/Graphics/Material.h>
+#include <AkuaEngine/Graphics/Mesh.h>
+#include <AkuaEngine/Simulation/ParticleSystem.h>
 #include <glm/glm.hpp>
 
-namespace AquaForge {
+namespace AkuaEngine {
 
 SceneObject::SceneObject(Material* material, Mesh* mesh, ParticleSystem* ps, SceneObjectType objectType, bool requireInterop) 
     : _material(material),
@@ -62,4 +62,4 @@ glm::mat4 SceneObject::getModelMatrix() const {
     return glm::mat4(1.0f);
 }
 
-} // namespace AquaForge
+} // namespace AkuaEngine

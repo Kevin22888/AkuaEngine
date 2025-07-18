@@ -1,12 +1,12 @@
-#include <AquaForge/CUDA/NeighbourSearchCUDA.h>
-#include <AquaForge/Simulation/Particle.h>
+#include <AkuaEngine/CUDA/NeighbourSearchCUDA.h>
+#include <AkuaEngine/Simulation/Particle.h>
 #include <cuda_runtime.h>
 #include <cuda_gl_interop.h>
 #include <thrust/device_vector.h>
 #include <thrust/sort.h>
 #include <glm/glm.hpp>
 
-namespace AquaForge {
+namespace AkuaEngine {
 
 namespace NeighbourSearchCUDA {
 
@@ -188,4 +188,4 @@ void findParticleNeighboursCUDA(
 
 } // namespace NeighbourSearchCUDA
 
-} // namespace AquaForge
+} // namespace AkuaEngine

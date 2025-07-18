@@ -1,14 +1,14 @@
-#include <AquaForge/Simulation/PBFSolver.h>
-#include <AquaForge/Simulation/PBFConfig.h>
-#include <AquaForge/Interop/InteropResource.h>
-#include <AquaForge/CUDA/IntegrationCUDA.h>
-#include <AquaForge/CUDA/NeighbourSearchCUDA.h>
-#include <AquaForge/CUDA/ConstraintSolverCUDA.h>
+#include <AkuaEngine/Simulation/PBFSolver.h>
+#include <AkuaEngine/Simulation/PBFConfig.h>
+#include <AkuaEngine/Interop/InteropResource.h>
+#include <AkuaEngine/CUDA/IntegrationCUDA.h>
+#include <AkuaEngine/CUDA/NeighbourSearchCUDA.h>
+#include <AkuaEngine/CUDA/ConstraintSolverCUDA.h>
 #include <cuda_gl_interop.h>
 #include <vector>
 #include <cstdint>
 
-namespace AquaForge {
+namespace AkuaEngine {
 
 PBFSolver::PBFSolver(int numParticles, const PBFConfig& config, const LambdaCorrParams& corrParams) 
     : _numParticles(numParticles),
@@ -74,4 +74,4 @@ void PBFSolver::step(const InteropResource& particleInterop, float deltaTime, gl
     );
 }
 
-} // namespace AquaForge
+} // namespace AkuaEngine

@@ -1,8 +1,8 @@
-#include <AquaForge/Application/InputSystem.h>
+#include <AkuaEngine/Application/InputSystem.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-namespace AquaForge {
+namespace AkuaEngine {
 
 void InputSystem::handleMouseMovement(double xPos, double yPos) {
     float x = static_cast<float>(xPos);
@@ -48,4 +48,4 @@ void InputSystem::processKeyInputs(GLFWwindow* window, float deltaTime) {
         _camera->updatePosition(CameraMovement::Right, deltaTime);
 }
 
-} // namespace AquaForge
+} // namespace AkuaEngine

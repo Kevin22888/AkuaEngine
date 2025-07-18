@@ -1,20 +1,20 @@
-#include <AquaForge/Rendering/Renderer.h>
-#include <AquaForge/Camera/Camera.h>
-#include <AquaForge/Scene/Scene.h>
-#include <AquaForge/Scene/SceneObject.h>
-#include <AquaForge/Scene/SceneObjectType.h>
-#include <AquaForge/Interop/InteropManager.h>
-#include <AquaForge/Rendering/MeshBufferGL.h>
-#include <AquaForge/Rendering/ParticlesBufferGL.h>
-#include <AquaForge/Simulation/ParticleSystem.h>
-#include <AquaForge/Simulation/Particle.h>
-#include <AquaForge/Shader/ShaderProgram.h>
+#include <AkuaEngine/Rendering/Renderer.h>
+#include <AkuaEngine/Camera/Camera.h>
+#include <AkuaEngine/Scene/Scene.h>
+#include <AkuaEngine/Scene/SceneObject.h>
+#include <AkuaEngine/Scene/SceneObjectType.h>
+#include <AkuaEngine/Interop/InteropManager.h>
+#include <AkuaEngine/Rendering/MeshBufferGL.h>
+#include <AkuaEngine/Rendering/ParticlesBufferGL.h>
+#include <AkuaEngine/Simulation/ParticleSystem.h>
+#include <AkuaEngine/Simulation/Particle.h>
+#include <AkuaEngine/Shader/ShaderProgram.h>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <unordered_map>
 
-namespace AquaForge {
+namespace AkuaEngine {
 
 void Renderer::bindScene(Scene* scene, InteropManager* interopManager) {
     clearBuffers();
@@ -145,7 +145,7 @@ MeshBufferGL Renderer::uploadMesh(Mesh* mesh) {
     glBufferData(GL_ARRAY_BUFFER, interleaved.size() * sizeof(float), interleaved.data(), GL_STATIC_DRAW);
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
-        std::cerr << "[AquaForge::Renderer::uploadMesh] Error uploading buffer data:\n" << error << std::endl;
+        std::cerr << "[AkuaEngine::Renderer::uploadMesh] Error uploading buffer data:\n" << error << std::endl;
     }
 
     // Attributes are set dynamically based on what's provided in mesh.
@@ -194,7 +194,7 @@ ParticlesBufferGL Renderer::uploadParticles(ParticleSystem* ps) {
     glBufferData(GL_ARRAY_BUFFER, particles.size() * sizeof(Particle), particles.data(), GL_STATIC_DRAW); // particles.data() is the safer version of &particles[0]
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
-        std::cerr << "[AquaForge::Renderer::uploadParticles] Error uploading buffer data:\n" << error << std::endl;
+        std::cerr << "[AkuaEngine::Renderer::uploadParticles] Error uploading buffer data:\n" << error << std::endl;
     }
 
     // Position (vec3) at location 0
@@ -218,4 +218,4 @@ ParticlesBufferGL Renderer::uploadParticles(ParticleSystem* ps) {
     return ParticlesBufferGL { vao, vbo, static_cast<GLsizei>(particles.size()) };
 }
 
-} // namespace AquaForge
+} // namespace AkuaEngine

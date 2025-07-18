@@ -1,15 +1,15 @@
-#include <AquaForge/Interop/InteropResource.h>
+#include <AkuaEngine/Interop/InteropResource.h>
 #include <glad/glad.h>
 #include <cuda_gl_interop.h>
 #include <iostream>
 #include <utility>
 
-namespace AquaForge {
+namespace AkuaEngine {
 
 InteropResource::InteropResource(GLuint bufferID) {
     cudaError_t err = cudaGraphicsGLRegisterBuffer(&_resource, bufferID, cudaGraphicsMapFlagsNone);
     if (err != cudaSuccess) {
-        std::cerr << "[AquaForge::InteropResource::InteropResource] Failed to register OpenGL buffer for access by CUDA." << std::endl;
+        std::cerr << "[AkuaEngine::InteropResource::InteropResource] Failed to register OpenGL buffer for access by CUDA." << std::endl;
     }
 }
 
@@ -34,4 +34,4 @@ void InteropResource::release() {
     }
 }
 
-} // namespace AquaForge
+} // namespace AkuaEngine

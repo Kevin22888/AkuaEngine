@@ -1,11 +1,11 @@
-#include <AquaForge/Interop/InteropManager.h>
-#include <AquaForge/Interop/InteropResource.h>
-#include <AquaForge/Scene/SceneObject.h>
+#include <AkuaEngine/Interop/InteropManager.h>
+#include <AkuaEngine/Interop/InteropResource.h>
+#include <AkuaEngine/Scene/SceneObject.h>
 #include <glad/glad.h>
 #include <unordered_map>
 #include <iostream>
 
-namespace AquaForge {
+namespace AkuaEngine {
 
 InteropManager::~InteropManager() {
     releaseAll();
@@ -15,7 +15,7 @@ void InteropManager::registerInteropResource(SceneObject* object, GLuint vbo) {
     if (!object) return;
 
     if (_interopMap.find(object) != _interopMap.end()) {
-        std::cerr << "[AquaForge::InteropManager::registerInteropResource] Object already registered with InteropResource" << std::endl;
+        std::cerr << "[AkuaEngine::InteropManager::registerInteropResource] Object already registered with InteropResource" << std::endl;
         return;
     }
 
@@ -34,4 +34,4 @@ void InteropManager::releaseAll() {
     _interopMap.clear();
 }
 
-} // namespace AquaForge
+} // namespace AkuaEngine

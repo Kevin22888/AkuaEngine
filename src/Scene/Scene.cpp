@@ -1,9 +1,9 @@
-#include <AquaForge/Scene/Scene.h>
-#include <AquaForge/Scene/SceneObject.h>
+#include <AkuaEngine/Scene/Scene.h>
+#include <AkuaEngine/Scene/SceneObject.h>
 #include <vector>
 #include <iostream>
 
-namespace AquaForge {
+namespace AkuaEngine {
 
 Scene::~Scene() {
     clear();
@@ -29,4 +29,4 @@ void Scene::clear() {
     _objects.clear();
 }
 
-} // namespace AquaForge
+} // namespace AkuaEngine

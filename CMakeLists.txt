@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(AquaForge LANGUAGES C CXX CUDA)
+project(AkuaEngine LANGUAGES C CXX CUDA)
 
 # Set C++ and CUDA standards
 set(CMAKE_CXX_STANDARD 17)
@@ -40,31 +40,31 @@ set(SOURCES
     src/CUDA/IntegrationCUDA.cu
 )
 
-add_executable(AquaForge ${SOURCES})
+add_executable(AkuaEngine ${SOURCES})
 
 # Copy glfw3.dll to the output directory after build
-add_custom_command(TARGET AquaForge POST_BUILD
+add_custom_command(TARGET AkuaEngine POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${CMAKE_SOURCE_DIR}/glfw3.dll
-        $<TARGET_FILE_DIR:AquaForge>
+        $<TARGET_FILE_DIR:AkuaEngine>
 )
 
 # Copy shaders folder to output directory
-add_custom_command(TARGET AquaForge POST_BUILD
+add_custom_command(TARGET AkuaEngine POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/assets/shaders
-        $<TARGET_FILE_DIR:AquaForge>/assets/shaders
+        $<TARGET_FILE_DIR:AkuaEngine>/assets/shaders
 )
 
 # Link GLFW and OpenGL (currently only supporting Windows)
-target_link_libraries(AquaForge
+target_link_libraries(AkuaEngine
     glfw3dll
     opengl32
     gdi32
 )
 
 # Add nvcc flags
-target_compile_options(AquaForge
+target_compile_options(AkuaEngine
     PRIVATE
     $<$<COMPILE_LANGUAGE:CUDA>:--extended-lambda -diag-suppress=20012>
 )

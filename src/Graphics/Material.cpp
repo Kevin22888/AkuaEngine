@@ -1,7 +1,7 @@
-#include <AquaForge/Graphics/Material.h>
-#include <AquaForge/Shader/ShaderProgram.h>
+#include <AkuaEngine/Graphics/Material.h>
+#include <AkuaEngine/Shader/ShaderProgram.h>
 
-namespace AquaForge {
+namespace AkuaEngine {
 
 Material::Material(const char* vertexShaderFilePath, const char* fragmentShaderFilePath) {
     _shaderProgram = new ShaderProgram(vertexShaderFilePath, fragmentShaderFilePath);
@@ -28,4 +28,4 @@ ShaderProgram* Material::getShaderProgram() const {
     return _shaderProgram;
 }
 
-} // namespace AquaForge
+} // namespace AkuaEngine

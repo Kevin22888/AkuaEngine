@@ -1,13 +1,13 @@
-#include <AquaForge/CUDA/ConstraintSolverCUDA.h>
-#include <AquaForge/CUDA/SmoothingKernelsCUDA.h>
-#include <AquaForge/Simulation/Particle.h>
-#include <AquaForge/Simulation/PBFConfig.h>
+#include <AkuaEngine/CUDA/ConstraintSolverCUDA.h>
+#include <AkuaEngine/CUDA/SmoothingKernelsCUDA.h>
+#include <AkuaEngine/Simulation/Particle.h>
+#include <AkuaEngine/Simulation/PBFConfig.h>
 #include <cuda_runtime.h>
 #include <cuda_gl_interop.h>
 #include <thrust/device_vector.h>
 #include <glm/glm.hpp>
 
-namespace AquaForge {
+namespace AkuaEngine {
 
 namespace ConstraintSolverCUDA {
 
@@ -223,4 +223,4 @@ void runConstraintSolverCUDA(
 
 } // namespace ConstraintSolverCUDA
 
-} // namespace AquaForge
+} // namespace AkuaEngine
