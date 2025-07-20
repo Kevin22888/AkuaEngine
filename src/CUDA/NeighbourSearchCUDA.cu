@@ -113,7 +113,7 @@ __global__ void kernel_find_neighbours(
                     if (candidate->hash != hash) break;
 
                     // Record if this is a neighbour
-                    glm::vec3 separation = p_i->new_position - candidate->position;
+                    glm::vec3 separation = p_i->new_position - candidate->new_position;
                     float distanceSquared = glm::dot(separation, separation);
                     if (distanceSquared < smoothRadiusSquared) {
                         neighbourArray[start + count] = candidateIndex;
