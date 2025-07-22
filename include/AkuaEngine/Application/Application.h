@@ -29,7 +29,7 @@ private:
     // PBF
     PBFConfig _config;
     LambdaCorrParams _corrParams;
-    float _deltaTime = 0.0083f;
+    float _deltaTime = 0.016f;
 
     // Subsystems
     Camera _camera;

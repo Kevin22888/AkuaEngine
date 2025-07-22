@@ -5,6 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include <vector>
+#include <chrono>
 
 namespace {
 
@@ -15,6 +16,7 @@ constexpr glm::vec3 BOX_MAX = {4.5f, 4.0f, 4.5f};
 constexpr float FLOOR_LEVEL = -0.02f;
 constexpr float NEAR_Z = 0.1f;
 constexpr float FAR_Z = 160.0f;
+constexpr int MAX_STEPS_PER_FRAME = 3;
 
 }
 
@@ -32,14 +34,24 @@ Application::Application()
 int Application::run() {
     if (!init()) return -1;
 
+    float accumulator = 0.0f;
+    float lastTime = glfwGetTime();
+
     while (!glfwWindowShouldClose(_window)) {
+        float currentTime = glfwGetTime();
+        float frameTime = currentTime - lastTime;
+        lastTime = currentTime;
+        if (_simulationActive) {
+            accumulator += frameTime;
+        }
+
         glfwPollEvents();
 
         if (glfwGetKey(_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
             glfwSetWindowShouldClose(_window, true);
         }
 
-        _input.processKeyInputs(_window, _deltaTime);
+        _input.processKeyInputs(_window, frameTime);
 
         if (!_simulationActive && glfwGetKey(_window, GLFW_KEY_SPACE) == GLFW_PRESS) {
             _simulationActive = true;
@@ -49,10 +61,15 @@ int Application::run() {
         }
 
         if (_simulationActive) {
-            _solver.step(_interopManager.getInteropResource(_fluidObject), _deltaTime, BOX_MIN, BOX_MAX);
+            int numSteps = 0;
+            while (accumulator >= _deltaTime && numSteps < MAX_STEPS_PER_FRAME) {
+                _solver.step(_interopManager.getInteropResource(_fluidObject), _deltaTime, BOX_MIN, BOX_MAX);
+                accumulator -= _deltaTime;
+                numSteps++;
+            }
         }
 
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClearColor(0.15f, 0.15f, 0.18f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         _renderer.render(_camera);
@@ -84,6 +101,7 @@ bool Application::init() {
     }
     glfwMakeContextCurrent(_window); // Make an OpenGL context (_window) the main context on the current thread
     glfwSetWindowTitle(_window, "AkuaEngine");
+    glfwSwapInterval(1); // enable VSync
 
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) { // Load OpenGL functions (must come after context)
         std::cerr << "[AkuaEngine::Application::init] Failed to initialize GLAD." << std::endl;
@@ -109,10 +127,10 @@ void Application::prepareDamBreak() {
     // ============= Floor =============
     Mesh* floorMesh = new Mesh();
     std::vector<glm::vec3> floorVertices = {
-        {-2.0f, FLOOR_LEVEL, -2.0f}, // v0
-        { 8.0f, FLOOR_LEVEL, -2.0f}, // v1
-        { 8.0f, FLOOR_LEVEL,  8.0f}, // v2
-        {-2.0f, FLOOR_LEVEL,  8.0f}  // v3
+        {  0.0f, FLOOR_LEVEL,   0.0f}, // v0
+        {100.0f, FLOOR_LEVEL,   0.0f}, // v1
+        {100.0f, FLOOR_LEVEL, 100.0f}, // v2
+        {  0.0f, FLOOR_LEVEL, 100.0f}  // v3
     };
     std::vector<glm::vec2> floorUVs = {
         {0.0f, 0.0f},   // v0
@@ -132,7 +150,7 @@ void Application::prepareDamBreak() {
     floorMat->getShaderProgram()->bind();
     floorMat->getShaderProgram()->setUniform<glm::vec3>("color1", glm::vec3(0.8f, 0.8f, 0.8f)); // Light gray
     floorMat->getShaderProgram()->setUniform<glm::vec3>("color2", glm::vec3(0.5f, 0.5f, 0.5f)); // Dark gray
-    floorMat->getShaderProgram()->setUniform<float>("scale", 20.0f); // smaller number makes larger tiles
+    floorMat->getShaderProgram()->setUniform<float>("scale", 100.0f); // 100 tiles to fill 100 units in floor width
 
     SceneObject* floorObject = SceneObject::createMeshObject(floorMat, floorMesh, false);
     _damBreakScene.addObject(floorObject);
@@ -166,7 +184,7 @@ void Application::prepareDamBreak() {
                 p.velocity = glm::zero<glm::vec3>();
                 p.mass = 1.0f;
                 p.color = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f); // blue
-                p.size = 100.0f; // width in pixels for vertex shader
+                p.size = 50.0f; // width in pixels for vertex shader
 
                 particles.push_back(p);
             }
