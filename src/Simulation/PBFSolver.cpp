@@ -60,8 +60,11 @@ void PBFSolver::step(const InteropResource& particleInterop, float deltaTime, gl
     // 4. True update to the particle states
     updatePositionAndVelocityCUDA(particlesResource, _numParticles, deltaTime);
 
-    // 5. Vorticity Confinement
-    applyVelocityAdjustmentsCUDA(
+    // 5. Add damping
+    applyBoundaryVelocityDampingCUDA(particlesResource, _numParticles, boxMin, boxMax, 0.0f, 0.95f);
+
+    // 6. Vorticity Confinement and XSPH viscosity
+    applyVorticityAndViscosityCUDA(
         particlesResource, 
         _numParticles, 
         _neighbourArray.data(), 

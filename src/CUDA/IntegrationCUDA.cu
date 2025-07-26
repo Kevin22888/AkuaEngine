@@ -7,6 +7,17 @@
 #include <thrust/device_vector.h>
 #include <glm/glm.hpp>
 
+namespace {
+
+// TODO: move this to a larger collision detection module
+// and replace glm::vec3 with float3.
+struct CollisionPlane {
+    glm::vec3 point;
+    glm::vec3 normal;
+};
+
+}
+
 namespace AkuaEngine {
 
 namespace IntegrationCUDA {
@@ -35,6 +46,59 @@ __global__ void kernel_update_position_and_velocity(Particle* sortedParticles, i
 
     p->position = p->new_position;
     p->velocity = p->new_velocity;
+}
+
+__device__ void resolve_collision(
+    glm::vec3& position,
+    glm::vec3& velocity,
+    const glm::vec3& planePoint,
+    const glm::vec3& normal,
+    float minDist,
+    float restitution,
+    float friction
+) {
+    float distance = glm::dot(position - planePoint, normal);
+    float approaching = glm::dot(velocity, normal);
+
+    if (distance < minDist) {
+        glm::vec3 v_n = approaching * normal;
+        glm::vec3 v_t = velocity - v_n;
+        
+        if (approaching < 0.0f) {    
+            velocity = -restitution * v_n + (1.0f - friction) * v_t;
+        } else if (fabs(approaching) < 1e-5f) {
+            velocity = (1.0f - friction) * v_t;
+        }
+    }
+}
+
+__global__ void kernel_apply_boundary_velocity_damping(
+    Particle* sortedParticles,
+    int numParticles,
+    glm::vec3 boxMin,
+    glm::vec3 boxMax,
+    float restitution,
+    float friction
+) {
+    int i = threadIdx.x + blockDim.x * blockIdx.x;
+    if (i >= numParticles) return;
+
+    Particle* p = &sortedParticles[i];
+
+    const float minDist = 0.025f;
+
+    CollisionPlane planes[6] = {
+        { glm::vec3(boxMin.x, 0, 0),  glm::vec3( 1,  0,  0) },
+        { glm::vec3(boxMax.x, 0, 0),  glm::vec3(-1,  0,  0) },
+        { glm::vec3(0, boxMin.y, 0),  glm::vec3( 0,  1,  0) },
+        { glm::vec3(0, boxMax.y, 0),  glm::vec3( 0, -1,  0) },
+        { glm::vec3(0, 0, boxMin.z),  glm::vec3( 0,  0,  1) },
+        { glm::vec3(0, 0, boxMax.z),  glm::vec3( 0,  0, -1) }
+    };
+
+    for (const auto& plane : planes) {
+        resolve_collision(p->position, p->velocity, plane.point, plane.normal, minDist, restitution, friction);
+    }
 }
 
 __global__ void kernel_compute_vorticities(
@@ -165,7 +229,28 @@ void updatePositionAndVelocityCUDA(cudaGraphicsResource* particlesResource, int 
     cudaGraphicsUnmapResources(1, &particlesResource, 0);
 }
 
-void applyVelocityAdjustmentsCUDA(
+void applyBoundaryVelocityDampingCUDA(
+    cudaGraphicsResource* particlesResource,
+    int numParticles,
+    glm::vec3 boxMin,
+    glm::vec3 boxMax,
+    float restitution,
+    float friction
+) {
+    cudaGraphicsMapResources(1, &particlesResource, 0);
+    Particle* d_particles;
+    size_t numBytes;
+    cudaGraphicsResourceGetMappedPointer((void**)&d_particles, &numBytes, particlesResource);
+
+    int blockSize = 256;
+    int gridSize = (numParticles + blockSize - 1) / blockSize;
+    kernel_apply_boundary_velocity_damping<<<gridSize, blockSize>>>(d_particles, numParticles, boxMin, boxMax, restitution, friction);
+    cudaDeviceSynchronize();
+
+    cudaGraphicsUnmapResources(1, &particlesResource, 0);
+}
+
+void applyVorticityAndViscosityCUDA(
     cudaGraphicsResource* particlesResource, 
     int numParticles,
     uint32_t* neighbourArray, 

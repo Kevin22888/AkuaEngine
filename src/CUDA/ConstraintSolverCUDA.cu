@@ -134,7 +134,7 @@ This is just here to temporarily act as a collision detection.
 Later we will use virtual particles.
 */
 __device__ void handle_particle_collision(Particle* p, glm::vec3 boxMin, glm::vec3 boxMax) {
-    float minDist = 0.02f;
+    float minDist = 0.025f;// - 1e-5f; // give room to the later collision detection
     float stiffness = 0.5f;
      glm::vec3 correction(0.0f);
 

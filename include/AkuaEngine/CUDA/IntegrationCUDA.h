@@ -11,7 +11,15 @@ namespace IntegrationCUDA {
 
 void predictNewPositionCUDA(cudaGraphicsResource* particlesResource, int numParticles, glm::vec3 force, float deltaTime);
 void updatePositionAndVelocityCUDA(cudaGraphicsResource* particlesResource, int numParticles, float deltaTime);
-void applyVelocityAdjustmentsCUDA(
+void applyBoundaryVelocityDampingCUDA(
+    cudaGraphicsResource* particlesResource,
+    int numParticles,
+    glm::vec3 boxMin,
+    glm::vec3 boxMax,
+    float restitution,
+    float friction
+);
+void applyVorticityAndViscosityCUDA(
     cudaGraphicsResource* particlesResource, 
     int numParticles,
     uint32_t* neighbourArray, 
