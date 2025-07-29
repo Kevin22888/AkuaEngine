@@ -2,6 +2,7 @@
 #include <AkuaEngine/Scene/SceneObject.h>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 namespace AkuaEngine {
 

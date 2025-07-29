@@ -55,7 +55,7 @@ void Camera::updateOrientation(float xoffset, float yoffset) {
     xoffset *= _mouseSensitivity;
     yoffset *= _mouseSensitivity;
 
-    _yaw = std::fmodf(_yaw + xoffset, FULL_CIRCLE_DEGREES);
+    _yaw = fmodf(_yaw + xoffset, FULL_CIRCLE_DEGREES);
     if (_yaw < ZERO_DEGREES) _yaw += FULL_CIRCLE_DEGREES;
 
     _pitch -= yoffset;
