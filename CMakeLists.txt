@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.20)
 
 project(AkuaEngine LANGUAGES C CXX CUDA)
 
+enable_language(CUDA)
+
 # Set C++ and CUDA standards
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CUDA_STANDARD 17)

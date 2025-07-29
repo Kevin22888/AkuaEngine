@@ -37,5 +37,5 @@ jobs:
 
             - name: Configure and build project
               run: |
-                cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+                cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CUDA_ARCHITECTURES=native
                 cmake --build build --parallel
