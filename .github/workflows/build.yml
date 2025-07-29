@@ -18,8 +18,10 @@ jobs:
             - name: Install dependencies
               run: |
                 apt-get update
-                apt-get install -y git build-essential libglfw3-dev libx11-dev libxi-dev libgl1-mesa-dev cmake
-            
+                apt-get install -y git build-essential libglfw3-dev libx11-dev \
+                    libxi-dev libgl1-mesa-dev cmake cuda-samples-12-6
+                cp -r /usr/local/cuda/samples/common/inc/* /usr/local/cuda/include/
+                
             - name: Checkout repository
               uses: actions/checkout@v4
             
