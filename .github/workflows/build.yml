@@ -21,7 +21,7 @@ jobs:
               run: |
                 apt-get update
                 apt-get install -y git build-essential libglfw3-dev libx11-dev \
-                    libxi-dev libgl1-mesa-dev wget ca-certificates gnupg
+                    libxi-dev libgl1-mesa-dev cmake wget ca-certificates gnupg
                 
             - name: Install CUDA Toolkit headers for OpenGL interop
               run: |
