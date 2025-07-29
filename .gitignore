@@ -8,6 +8,8 @@
 /.vscode/
 
 notes.md
+devlog.md
+todolist.md
 
 # Ignore build outputs
 /build/

@@ -1,0 +1,29 @@
+name: Linux Build with CUDA via Docker
+
+on:
+    push:
+        branches: [ main, dev ]
+    pull_request:
+        branches: [ main, dev ]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        container:
+            image: nvidia/cuda:12.6.0-devel-ubuntu22.04
+            options: --user root
+        
+        steps:
+            - name: Install dependencies
+              run: |
+                apt-get update
+                apt-get install -y git build-essential libglfw3-dev libx11-dev libxi-dev libgl1-mesa-dev cmake
+            
+            - name: Checkout repository
+              uses: actions/checkout@v4
+            
+            - name: Configure and build project
+              run: |
+                cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+                cmake --build build --parallel

@@ -56,12 +56,22 @@ add_custom_command(TARGET AkuaEngine POST_BUILD
         $<TARGET_FILE_DIR:AkuaEngine>/assets/shaders
 )
 
-# Link GLFW and OpenGL (currently only supporting Windows)
-target_link_libraries(AkuaEngine
-    glfw3dll
-    opengl32
-    gdi32
-)
+# Link GLFW and OpenGL
+if (WIN32)
+    target_link_libraries(AkuaEngine
+        glfw3dll
+        opengl32
+        gdi32
+    )
+else()
+    target_link_libraries(AkuaEngine
+        glfw
+        GL
+        X11
+        Xi
+        pthread
+    )
+endif()
 
 # Add nvcc flags
 target_compile_options(AkuaEngine
