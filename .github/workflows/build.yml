@@ -1,41 +1,27 @@
-name: Linux Build with manual CUDA installation
+name: Windows Build with CUDA
 
 on:
-    push:
-        branches: [ main, dev ]
-    pull_request:
-        branches: [ main, dev ]
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
+  build:
+    runs-on: windows-latest
 
-            - name: Install dependencies
-              env:
-                DEBIAN_FRONTEND: noninteractive
-              run: |
-                sudo apt-get update
-                sudo apt-get install -y git build-essential libglfw3-dev libx11-dev \
-                    libxi-dev libgl1-mesa-dev cmake wget ca-certificates gnupg
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Install CUDA Toolkit 12.9 via APT
-              run: |
-                wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
-                sudo mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600
+      - name: Configure environment
+        run: |
+          echo "Checking for cl.exe and nvcc..."
+          where cl
+          where nvcc
+          nvcc --version
 
-                wget -q https://developer.download.nvidia.com/compute/cuda/12.9.1/local_installers/cuda-repo-ubuntu2204-12-9-local_12.9.1-575.57.08-1_amd64.deb
-                sudo dpkg -i cuda-repo-ubuntu2204-12-9-local_12.9.1-575.57.08-1_amd64.deb > /dev/null 2>&1
-
-                sudo cp /var/cuda-repo-ubuntu2204-12-9-local/*.gpg /usr/share/keyrings/
-
-                sudo apt-get update -qq
-                sudo apt-get install -y -qq cuda
-
-            - name: Configure and build project
-              run: |
-                cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CUDA_ARCHITECTURES=native -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc
-                cmake --build build --parallel
+      - name: Configure and build
+        run: |
+          cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --config Release
