@@ -33,6 +33,8 @@ jobs:
                 apt-get update
                 apt-get install -y -qq cuda-toolkit-12-9 > /dev/null
 
+                cp -r /var/cuda-repo-ubuntu2204-12-9-local/include/* /usr/local/cuda/include/
+
             - name: Checkout repository
               uses: actions/checkout@v4
             
