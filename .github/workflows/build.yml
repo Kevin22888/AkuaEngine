@@ -14,14 +14,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configure environment
+      - name: Install CUDA Toolkit 12.9 via Winget
         run: |
-          echo "Checking for cl.exe and nvcc..."
-          where cl
-          where nvcc
-          nvcc --version
+          echo "Installing CUDA Toolkit 12.9..."
+          winget install -e --id NVIDIA.CUDA.12.9
 
-      - name: Configure and build
+      - name: Add CUDA to PATH
+        shell: powershell
+        run: |
+          $cudaPath = "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.9\bin"
+          echo "##[add-path]$cudaPath"
+          echo "Added CUDA path: $cudaPath"
+
+      - name: Verify environment
+        shell: powershell
+        run: |
+          echo "Checking CUDA installation..."
+          & "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.9\bin\nvcc.exe" --version
+          cl
+
+      - name: Configure and build with CMake
+        shell: powershell
         run: |
           cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release
           cmake --build build --config Release
