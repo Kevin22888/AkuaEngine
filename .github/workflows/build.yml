@@ -11,7 +11,7 @@ jobs:
         runs-on: ubuntu-latest
 
         container:
-            image: nvidia/cuda:12.6.0-devel-ubuntu22.04
+            image: nvidia/cudagl:11.3.0-devel-ubuntu20.04
             options: --user root
         
         steps:
@@ -19,9 +19,8 @@ jobs:
               run: |
                 apt-get update
                 apt-get install -y git build-essential libglfw3-dev libx11-dev \
-                    libxi-dev libgl1-mesa-dev cmake cuda-samples-12-6
-                cp -r /usr/local/cuda/samples/common/inc/* /usr/local/cuda/include/
-                
+                    libxi-dev libgl1-mesa-dev cmake
+
             - name: Checkout repository
               uses: actions/checkout@v4
             
