@@ -1,14 +1,24 @@
+# Build artifacts
 *.lib
 *.dll
 *.exe
 
+# Keep required external libraries
 !glfw3.dll
 !glfw3dll.lib
 
-/.vscode/
-
-notes.md
-
-# Ignore build outputs
+# Build directories
 /build/
 /Release/
+
+# Visual Studio Code workspace settings and configurations
+.vscode/
+
+# macOS system files
+.DS_Store
+._*
+
+# Personal / local documentation
+notes.md
+devlog.md
+todolist.md
